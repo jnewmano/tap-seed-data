@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/jnewmano/seed-data-tap/seeddata"
-	"github.com/jnewmano/seed-data-tap/singertap"
+	"github.com/jnewmano/tap-seed-data/seeddata"
+	"github.com/jnewmano/tap-seed-data/singertap"
 )
 
 func main() {

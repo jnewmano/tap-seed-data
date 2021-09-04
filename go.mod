@@ -1,4 +1,4 @@
-module github.com/jnewmano/seed-data-tap
+module github.com/jnewmano/tap-seed-data
 
 go 1.17
 

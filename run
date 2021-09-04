@@ -2,6 +2,6 @@
 
 set -eux
 
-go build -o seed-data-tap
+go build -o tap-seed-data
 
-./seed-data-tap
+./tap-seed-data

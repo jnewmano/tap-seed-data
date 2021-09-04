@@ -1,2 +1,2 @@
-# seed-data-tap
+# tap-seed-data
 Generate random seed data
