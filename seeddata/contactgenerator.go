@@ -1,12 +1,67 @@
 package seeddata
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func GenerateContact(contactID string) Contact {
-	g := randomGenerator.Intn(2)
+type contactOptions struct {
+	attributes           map[string]bool
+	genderDistribution   float64
+	deceasedDistribution float64
+}
+
+func newContactOptions() contactOptions {
+	return contactOptions{
+		attributes:           make(map[string]bool),
+		genderDistribution:   0.5,
+		deceasedDistribution: 0.05,
+	}
+}
+
+type ContactOption interface {
+	apply(*contactOptions)
+}
+
+// funcContactOption wraps a function that modifies contactOptions
+type funcContactOption struct {
+	f func(*contactOptions)
+}
+
+func (f *funcContactOption) apply(do *contactOptions) {
+	f.f(do)
+}
+
+func newFuncContactOption(f func(*contactOptions)) *funcContactOption {
+	return &funcContactOption{
+		f: f,
+	}
+}
+
+// NewContactAttributesOptions takes a map of attributes and the
+// probability that the attribute should be true
+func NewContactAttributesOption(attributes map[string]float64) ContactOption {
+	return newFuncContactOption(func(a *contactOptions) {
+		for k, v := range attributes {
+			set := false
+			if randomGenerator.Float64() < v {
+				set = true
+			}
+			a.attributes[k] = set
+		}
+	})
+}
+
+func GenerateContact(contactID string, opts ...ContactOption) Contact {
+
+	co := newContactOptions()
+
+	for _, v := range opts {
+		v.apply(&co)
+	}
+
 	gender := "Female"
 	randomName := RandomFemaleName
-	if g == 1 {
+	if randomGenerator.Float64() < co.genderDistribution {
 		gender = "Male"
 		randomName = RandomMaleName
 	}
@@ -14,13 +69,8 @@ func GenerateContact(contactID string) Contact {
 	birthday := RandomBirthday().Format("2006-01-02")
 	contactMethods := randomContactMethods()
 
-	isActive := true
-	if randomGenerator.Float64() < .2 {
-		isActive = false
-	}
-
 	deceased := false
-	if randomGenerator.Float64() < 0.05 {
+	if randomGenerator.Float64() < co.deceasedDistribution {
 		deceased = true
 	}
 
@@ -43,10 +93,7 @@ func GenerateContact(contactID string) Contact {
 
 		ContactMethods: contactMethods,
 
-		Attributes: map[string]bool{
-			"IsPatient": true,
-			"Active":    isActive,
-		},
+		Attributes:     co.attributes,
 		AdditionalData: map[string]string{},
 	}
 

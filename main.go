@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"os"
 	"strconv"
 	"time"
 
@@ -14,17 +13,24 @@ func main() {
 
 	s := singertap.New()
 
+	attributes := map[string]float64{
+		"IsActive":  0.80,
+		"IsPatient": 1.00,
+	}
+
+	copts := []seeddata.ContactOption{
+		seeddata.NewContactAttributesOption(attributes),
+	}
+
 	for i := 1; i <= 10000; i++ {
-		contact := seeddata.GenerateContact(strconv.Itoa(i))
+		contact := seeddata.GenerateContact(strconv.Itoa(i), copts...)
 		err := s.WriteRecord("Contact", &contact)
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
 
-	os.Exit(1)
-
-	opts := []seeddata.AppointmentOption{
+	aopts := []seeddata.AppointmentOption{
 		seeddata.NewAppointmentDurationOption(45, 60, 75, 90),           // appointments should be 60 minutes long
 		seeddata.NewAppointmentContactIDRangeOption(1, 10000),           // randomly generate contact ids
 		seeddata.NewAppointmentStartTimeMinStepOption(time.Minute * 15), // schedule at 5 minute intervals
@@ -36,7 +42,7 @@ func main() {
 	}
 
 	for i := 1; i <= 100000; i++ {
-		apt := seeddata.GenerateAppointment(strconv.Itoa(i), opts...)
+		apt := seeddata.GenerateAppointment(strconv.Itoa(i), aopts...)
 		err := s.WriteRecord("Appointment", &apt)
 		if err != nil {
 			log.Fatal(err)
