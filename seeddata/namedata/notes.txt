@@ -1,0 +1,8 @@
+Sourced from github.com/athom/namepicker
+Data is ultimately provided by the US Census
+
+Files are fixed length columns
+Name is [0-14]
+Frequency is [15-20]
+Cumulative frequency is [21-28]
+Rank is [29-34]
