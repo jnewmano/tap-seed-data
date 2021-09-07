@@ -1,39 +1,21 @@
 package seeddata
 
 import (
-	"math/rand"
+	"strconv"
 	"time"
 )
 
-var randomGenerator *rand.Rand
-
 func init() {
-	// setup a random number generator specifically for the birthday generator
-	randomGenerator = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	loadPopulationData()
 }
 
 // RandomBirthday generates a random birthday using
 // the age distribution of the United States
 func RandomBirthday() time.Time {
 
-	// get a total so we can pick a number out of our data
-	sum := 0
-	for _, v := range populationDistribution {
-		sum += v.Count
-	}
-
-	// randomly choose which bucket we should use
-	r := randomGenerator.Intn(sum)
-
-	// figure out which bucket the number belongs to
-	ageBucket := 0
-	for i, v := range populationDistribution {
-		if r < v.Count {
-			ageBucket = i
-			break
-		}
-		r -= v.Count
-	}
+	bucket := pick("ages")
+	ageBucket, _ := strconv.Atoi(bucket)
 
 	// once we have the age bucket, we can get an age out of that bucket
 	// each bucket is 5 years wide
@@ -41,8 +23,9 @@ func RandomBirthday() time.Time {
 	age := ageBucket*5 + int(ar)
 
 	dayR := randomGenerator.Intn(365)
-	return time.Now().AddDate(-age, 0, -dayR)
+	birthday := time.Now().AddDate(-age, 0, -dayR)
 
+	return birthday
 }
 
 // US census data 2019
