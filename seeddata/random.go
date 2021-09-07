@@ -84,25 +84,30 @@ func loadPopulationData() {
 		all = append(all, row)
 	}
 
-	// rescale the cdf so that the CDF covers (0,1]
-	max := all[len(all)-1].cdf
-	for i, v := range all {
-		v.cdf = v.cdf / max
-		all[i] = v
-	}
+	addDataset("ages", all)
 
-	ds := dataset{
-		name: "ages",
-		data: all,
-	}
-
-	datasets.datasets = append(datasets.datasets, ds)
 }
 
 type entryRow struct {
 	value       string
 	probability float64
 	cdf         float64
+}
+
+func addDataset(name string, data []entryRow) {
+	// rescale the cdf so that the CDF covers (0,1]
+	max := data[len(data)-1].cdf
+	for i, v := range data {
+		v.cdf = v.cdf / max
+		data[i] = v
+	}
+
+	ds := dataset{
+		name: name,
+		data: data,
+	}
+
+	datasets.datasets = append(datasets.datasets, ds)
 }
 
 func loadFile(fn string) error {
@@ -117,11 +122,9 @@ func loadFile(fn string) error {
 	if err != nil {
 		return err
 	}
-	ds := dataset{
-		name: fn,
-		data: rows,
-	}
-	datasets.datasets = append(datasets.datasets, ds)
+
+	addDataset(fn, rows)
+
 	return nil
 }
 
@@ -159,15 +162,6 @@ func loadFileContents(f io.Reader) ([]entryRow, error) {
 		}
 
 		all = append(all, row)
-	}
-
-	// rescale the cdf so that the CDF covers (0,1]
-	// our name list doesn't include all names, we
-	// only have a truncated dataset
-	max := all[len(all)-1].cdf
-	for i, v := range all {
-		v.cdf = v.cdf / max
-		all[i] = v
 	}
 
 	// TODO: use a data structure that isn't a slice
