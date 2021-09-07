@@ -7,7 +7,6 @@ import (
 	"math/rand"
 	"strconv"
 	"strings"
-	"sync"
 	"time"
 )
 
@@ -24,7 +23,6 @@ type dataset struct {
 }
 
 var datasets struct {
-	sync.Mutex
 	datasets []dataset
 }
 
@@ -50,9 +48,6 @@ func pick(set string) string {
 }
 
 func getDataSet(set string) (dataset, error) {
-	datasets.Lock()
-	defer datasets.Unlock()
-
 	// find a matching dataset
 	var ds dataset
 	for _, v := range datasets.datasets {
