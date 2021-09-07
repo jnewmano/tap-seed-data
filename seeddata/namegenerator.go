@@ -21,7 +21,7 @@ func init() {
 	}
 
 	for _, v := range files {
-		err := loadFile(v)
+		err := loadNameFile(v)
 		if err != nil {
 			panic(err)
 		}
