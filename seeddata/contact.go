@@ -21,6 +21,10 @@ type Contact struct {
 	AdditionalData map[string]string // key value pairs with additional data about the contact
 }
 
+func (c *Contact) KeyProperties() []string {
+	return []string{"ContactID"}
+}
+
 type Address struct {
 	Address  string
 	Address2 string

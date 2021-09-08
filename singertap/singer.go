@@ -20,7 +20,7 @@ func New() *SingerTap {
 	return &s
 }
 
-func (s *SingerTap) WriteRecord(recordType string, record interface{}) error {
+func (s *SingerTap) WriteRecord(recordType string, record Record) error {
 	out, err := json.Marshal(record)
 	if err != nil {
 		return err
@@ -62,7 +62,7 @@ func (s *SingerTap) WriteRecord(recordType string, record interface{}) error {
 	return nil
 }
 
-func (s *SingerTap) writeSchema(recordType string, record interface{}) error {
+func (s *SingerTap) writeSchema(recordType string, record Record) error {
 	// The write lock must already be held by the caller
 
 	schema := jsonschema.Reflect(record)
@@ -76,8 +76,8 @@ func (s *SingerTap) writeSchema(recordType string, record interface{}) error {
 			Type:   "SCHEMA",
 			Stream: recordType,
 		},
-		KeyProperties: nil, // TODO: fill this out
-		Schema:        out, // TODO: fill this out
+		KeyProperties: record.KeyProperties(),
+		Schema:        out,
 	}
 
 	out, err = json.Marshal(r)
@@ -111,4 +111,8 @@ type SingerSchema struct {
 	SingerMessage
 	KeyProperties []string        `json:"key_properties"`
 	Schema        json.RawMessage `json:"schema"`
+}
+
+type Record interface {
+	KeyProperties() []string
 }

@@ -1,7 +1,7 @@
 # tap-seed-data
 Generate random lists of contact and appointment data.
 
-## Singer.IO stream
+## Singer.IO tap
 
 This app will output a Singer.IO stream of random contact
 and appointment data. 

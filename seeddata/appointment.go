@@ -29,6 +29,10 @@ type Appointment struct {
 	AdditionalData map[string]string // key value pairs with additional data about the appointment
 }
 
+func (a *Appointment) KeyProperties() []string {
+	return []string{"AppointmentID"}
+}
+
 type AppointmentService struct {
 }
 
