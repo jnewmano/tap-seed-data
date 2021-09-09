@@ -63,9 +63,12 @@ func (s *SingerTap) WriteRecord(recordType string, record Record) error {
 }
 
 func (s *SingerTap) writeSchema(recordType string, record Record) error {
-	// The write lock must already be held by the caller
 
-	schema := jsonschema.Reflect(record)
+	reflector := jsonschema.Reflector{
+		ExpandedStruct: true,
+	}
+
+	schema := reflector.Reflect(record)
 	out, err := schema.MarshalJSON()
 	if err != nil {
 		return err
