@@ -133,11 +133,7 @@ func GenerateAppointment(appointmentID string, options ...AppointmentOption) App
 
 	a.Resources = ao.resources
 
-	a.Events = []struct {
-		Type    string
-		EventID string
-		Time    time.Time
-	}{
+	a.Events = []AppointmentEvent{
 		{
 			Type: AppointmentEventKeyConfirmed,
 			Time: ats.Add(-time.Hour),

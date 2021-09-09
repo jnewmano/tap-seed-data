@@ -19,14 +19,16 @@ type Appointment struct {
 	Services  []AppointmentService  // list of services that are scheduled to be received during the appointment
 	Resources []AppointmentResource // list of resources assigned for the appointment, operatories, personnel, equipment, etc
 
-	Events []struct {
-		Type    string
-		EventID string
-		Time    time.Time
-	} // list of events and times that they occured
+	Events []AppointmentEvent // list of events and times that they occured
 
 	Attributes     map[string]bool   // boolean values that give additional information about an appointment
 	AdditionalData map[string]string // key value pairs with additional data about the appointment
+}
+
+type AppointmentEvent struct {
+	Type    string
+	EventID string
+	Time    time.Time
 }
 
 func (a *Appointment) KeyProperties() []string {

@@ -125,10 +125,9 @@ func randomContactMethods() []ContactMethod {
 func RandomPhoneContactMethod() ContactMethod {
 	types := []string{"Home", "Mobile", "Work", "Other"}
 	c := ContactMethod{
-		Type:     "Phone",
-		Tags:     []string{types[randomGenerator.Intn(len(types))]},
-		Priority: randomGenerator.Intn(100),
-		Address:  RandomPhoneNumber(),
+		Type:    "Phone",
+		Tags:    []string{types[randomGenerator.Intn(len(types))]},
+		Address: RandomPhoneNumber(),
 	}
 
 	return c

@@ -65,6 +65,7 @@ func (s *SingerTap) WriteRecord(recordType string, record Record) error {
 func (s *SingerTap) writeSchema(recordType string, record Record) error {
 
 	reflector := jsonschema.Reflector{
+		DoNotReference: true,
 		ExpandedStruct: true,
 	}
 

@@ -35,10 +35,9 @@ type Address struct {
 }
 
 type ContactMethod struct {
-	Type     string   // Phone/email/social handle
-	Tags     []string // arbitrary tags that add additional information about the contact method, then home, mobile, work, fax, etc
-	Priority int      // used for sorting when multiple of the same type exist, lower is higher priority
-	Address  string   // phone number, email, social handle, etc
+	Type    string   // Phone/email/social handle
+	Tags    []string // arbitrary tags that add additional information about the contact method, then home, mobile, work, fax, etc
+	Address string   // phone number, email, social handle, etc
 }
 
 func (c *Contact) BestContactMethod(t string, attributes ...string) ContactMethod {
@@ -46,20 +45,23 @@ func (c *Contact) BestContactMethod(t string, attributes ...string) ContactMetho
 }
 
 func BestContactMethod(cs []ContactMethod, t string, attributes ...string) ContactMethod {
-	result := ContactMethod{}
-mainLoop:
 	for _, v := range cs {
 		if v.Type != t {
 			continue
 		}
+
+		found := false
 		for _, a := range attributes {
-			if !has(a, v.Tags) {
-				continue mainLoop
+			if has(a, v.Tags) {
+				found = true
+				break
 			}
 		}
-		if v.Priority < result.Priority {
-			result = v
+		if !found {
+			continue
 		}
+
+		return v
 	}
-	return result
+	return ContactMethod{}
 }
