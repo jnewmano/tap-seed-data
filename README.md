@@ -1,3 +1,5 @@
+[![Go](https://github.com/jnewmano/tap-seed-data/actions/workflows/go.yml/badge.svg)](https://github.com/jnewmano/tap-seed-data/actions/workflows/go.yml)
+
 # tap-seed-data
 Generate random lists of contact and appointment data.
 
