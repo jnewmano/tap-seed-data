@@ -9,9 +9,10 @@ jobs:
   builder:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out repository code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+
     - name: Setup pack
       uses: gcr.io/k8s-skaffold/pack
+
     - name: build 
       run: pack build random-name --builder paketobuildpacks/builder:tiny
