@@ -1,14 +1,18 @@
-name: Container Build
+name: Go
+
 on:
+  push:
+    branches: [ main ]
   pull_request:
     branches: [ main ]
+
 jobs:
-  containerbuild:
+
+  build:
     runs-on: ubuntu-latest
     steps:
     - name: Check out repository code
       uses: actions/checkout@v2
-    - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
     - name: Setup pack
       uses: gcr.io/k8s-skaffold/pack
     - name: build 
