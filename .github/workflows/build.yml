@@ -1,0 +1,13 @@
+name: Container Build
+  on: [push]
+  jobs:
+    Container Build:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - name: Setup pack
+        uses: gcr.io/k8s-skaffold/pack
+      - name: build 
+        run: pack build random-name --builder paketobuildpacks/builder:tiny
