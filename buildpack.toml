@@ -1,0 +1,10 @@
+[project]
+id = "com.squarepenguin.tap-seed-data"
+name = "Tap Seed Data"
+
+[build]
+exclude = [
+]
+
+[[build.buildpacks]]
+uri = "paketobuildpacks/builder:tiny/"
