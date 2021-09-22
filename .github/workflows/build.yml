@@ -26,7 +26,7 @@ jobs:
         set -euo pipefail
         BP_ID="tap-seed-data"
         VERSION="0.1"
-        PACKAGE="{REPO}/tap-seed-data"
+        PACKAGE="${REPO}/tap-seed-data"
         pack build --builder paketobuildpacks/builder:tiny --publish ${PACKAGE}:${VERSION}
         DIGEST="$(crane digest ${PACKAGE}:${VERSION})"
         echo "::set-output name=bp_id::$BP_ID"
