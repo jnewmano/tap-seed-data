@@ -27,7 +27,7 @@ jobs:
         BP_ID="tap-seed-data"
         VERSION="0.1"
         PACKAGE="tap-seed-data"
-        pack buildpack package --publish ${PACKAGE}:${VERSION}
+        pack build --builder paketobuildpacks/builder:tiny --publish ${PACKAGE}:${VERSION}
         DIGEST="$(crane digest ${PACKAGE}:${VERSION})"
         echo "::set-output name=bp_id::$BP_ID"
         echo "::set-output name=version::$VERSION"
