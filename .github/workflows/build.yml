@@ -2,8 +2,7 @@ name: Image
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags: [ '*' ]
 
 jobs:
   register:
@@ -24,6 +23,9 @@ jobs:
       run: |
         #!/usr/bin/env bash
         set -euo pipefail
+        
+        echo "${GITHUB_REF} ${GITHUB_EVENT_NAME}"
+
         BP_ID="tap-seed-data"
         VERSION="0.1"
         PACKAGE="${REPO}/tap-seed-data"
