@@ -1,5 +1,7 @@
 name: Container Build
-on: [push]
+on:
+  pull_request:
+    branches: [ main ]
 jobs:
   containerbuild:
     runs-on: ubuntu-latest
