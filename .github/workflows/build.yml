@@ -12,6 +12,24 @@ jobs:
     steps:
     - id: checkout
       uses: actions/checkout@v2
+    - name: Set tag var
+      id: tag
+      shell: bash
+      run: |
+        #!/usr/bin/env bash
+        set -euo pipefail
+
+        TYPE=$(echo ${GITHUB_REF} | cut -d'/' -f2)
+        REF=$(echo ${GITHUB_REF} | cut -d'/' -f3)
+        SHA7=$(echo ${GITHUB_SHA} | cut -c1-7)
+
+        TAG=$REF-${SHA7}
+        if [ "${TYPE}" == "tags" ]; then
+          TAG=$REF
+        fi
+
+        echo ::set-output name=tag::$TAG
+
     - uses: docker/login-action@v1
       with:
         registry: docker.io
@@ -23,17 +41,14 @@ jobs:
       run: |
         #!/usr/bin/env bash
         set -euo pipefail
-        
-        echo "${GITHUB_REF} ${GITHUB_EVENT_NAME}"
 
         BP_ID="tap-seed-data"
-        VERSION="0.1"
         PACKAGE="${REPO}/tap-seed-data"
-        pack build --builder paketobuildpacks/builder:tiny --publish ${PACKAGE}:${VERSION}
-        DIGEST="$(crane digest ${PACKAGE}:${VERSION})"
-        echo "::set-output name=bp_id::$BP_ID"
-        echo "::set-output name=version::$VERSION"
-        echo "::set-output name=address::${PACKAGE}@${DIGEST}"
+        TAG=${{ steps.tag.outputs.tag }}
+        pack build --builder paketobuildpacks/builder:tiny --publish ${PACKAGE}:${TAG}
+        DIGEST="$(crane digest ${PACKAGE}:${TAG})"
+
       shell: bash
       env:
         REPO: docker.io/${{ secrets.DOCKER_USERNAME }}
+        
