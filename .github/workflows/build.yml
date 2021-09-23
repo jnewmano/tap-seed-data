@@ -24,7 +24,7 @@ jobs:
         SHA7=$(echo ${GITHUB_SHA} | cut -c1-7)
 
         TAG=$REF-${SHA7}
-        if [ "${TYPE}" == "tags" ]; then
+        if [ "${TYPE}" == "main" ] && [ "${TYPE}" == "tags" ]; then
           TAG=$REF
         fi
 
@@ -42,13 +42,12 @@ jobs:
         #!/usr/bin/env bash
         set -euo pipefail
 
-        BP_ID="tap-seed-data"
-        PACKAGE="${REPO}/tap-seed-data"
+        NAME=$(echo ${GITHUB_REPOSITORY} | cut -d'/' -f2)
+        PACKAGE="${REPO}/${NAME}"
         TAG=${{ steps.tag.outputs.tag }}
+
         pack build --builder paketobuildpacks/builder:tiny --publish ${PACKAGE}:${TAG}
-        DIGEST="$(crane digest ${PACKAGE}:${TAG})"
 
       shell: bash
       env:
         REPO: docker.io/${{ secrets.DOCKER_USERNAME }}
-        
