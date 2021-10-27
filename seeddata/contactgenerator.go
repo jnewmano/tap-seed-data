@@ -74,12 +74,12 @@ func GenerateContact(contactID string, opts ...ContactOption) Contact {
 		deceased = true
 	}
 
-	firstName, lastName := randomName()
+	givenName, familyName := randomName()
 	c := Contact{
 		ContactID: contactID,
 
-		FirstName:     firstName,
-		LastName:      lastName,
+		GivenName:     givenName,
+		FamilyName:    familyName,
 		MiddleName:    "",
 		PreferredName: "",
 		Company:       "",

@@ -5,9 +5,9 @@ import (
 )
 
 const (
-	lastNameDataset        = "lastnames.txt"
-	femaleFirstNameDataset = "firstnames-female.txt"
-	maleFirstNameDataset   = "firstnames-male.txt"
+	familyNameDataset      = "familynames.txt"
+	femaleGivenNameDataset = "givennames-female.txt"
+	maleGivenNameDataset   = "givennames-male.txt"
 )
 
 //go:embed namedata
@@ -15,9 +15,9 @@ var nameFiles embed.FS
 
 func init() {
 	files := []string{
-		lastNameDataset,
-		femaleFirstNameDataset,
-		maleFirstNameDataset,
+		familyNameDataset,
+		femaleGivenNameDataset,
+		maleGivenNameDataset,
 	}
 
 	for _, v := range files {
@@ -28,33 +28,33 @@ func init() {
 	}
 }
 
-func RandomName() (firstName string, lastName string) {
+func RandomName() (givenName string, familyName string) {
 	if randomGenerator.Float64() < 0.5 {
 		return RandomMaleName()
 	}
 	return RandomFemaleName()
 }
 
-func RandomFemaleName() (firstName string, lastName string) {
-	firstName = randomFemaleFirstName()
-	lastName = randomLastName()
+func RandomFemaleName() (givenName string, familyName string) {
+	givenName = randomFemaleGivenName()
+	familyName = randomFamilyName()
 	return
 }
 
-func RandomMaleName() (firstName string, lastName string) {
-	firstName = randomMaleFirstName()
-	lastName = randomLastName()
+func RandomMaleName() (givenName string, familyName string) {
+	givenName = randomMaleGivenName()
+	familyName = randomFamilyName()
 	return
 }
 
-func randomMaleFirstName() string {
-	return pick(maleFirstNameDataset)
+func randomMaleGivenName() string {
+	return pick(maleGivenNameDataset)
 }
 
-func randomFemaleFirstName() string {
-	return pick(femaleFirstNameDataset)
+func randomFemaleGivenName() string {
+	return pick(femaleGivenNameDataset)
 }
 
-func randomLastName() string {
-	return pick(lastNameDataset)
+func randomFamilyName() string {
+	return pick(familyNameDataset)
 }
