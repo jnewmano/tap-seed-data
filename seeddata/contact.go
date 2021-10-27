@@ -3,8 +3,8 @@ package seeddata
 type Contact struct {
 	ContactID string
 
-	FirstName     string
-	LastName      string
+	GivenName     string
+	FamilyName    string
 	MiddleName    string
 	PreferredName string
 	Company       string
