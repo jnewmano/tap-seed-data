@@ -50,6 +50,11 @@ func BestContactMethod(cs []ContactMethod, t string, attributes ...string) Conta
 			continue
 		}
 
+		// if we have no attributes to match on, return the first one we found
+		if len(attributes) == 0 {
+			return v
+		}
+
 		found := false
 		for _, a := range attributes {
 			if has(a, v.Tags) {
