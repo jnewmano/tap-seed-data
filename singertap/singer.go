@@ -6,7 +6,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/alecthomas/jsonschema"
+	"github.com/invopop/jsonschema"
 )
 
 type SingerTap struct {
