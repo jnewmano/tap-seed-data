@@ -4,7 +4,13 @@ go 1.18
 
 require (
 	github.com/bearbin/go-age v0.0.0-20210220235509-f0fa00c278ce
-	github.com/invopop/jsonschema v0.8.0
+	github.com/invopop/jsonschema v0.9.0
 )
 
-require github.com/iancoleman/orderedmap v0.0.0-20190318233801-ac98e3ecb4b0 // indirect
+require (
+	github.com/bahlo/generic-list-go v0.2.0 // indirect
+	github.com/buger/jsonparser v1.1.1 // indirect
+	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/wk8/go-ordered-map/v2 v2.1.8 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
+)
