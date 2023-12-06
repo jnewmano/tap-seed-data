@@ -1,6 +1,6 @@
 module github.com/jnewmano/tap-seed-data
 
-go 1.18
+go 1.20
 
 require (
 	github.com/bearbin/go-age v0.0.0-20210220235509-f0fa00c278ce
